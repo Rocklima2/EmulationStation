@@ -168,12 +168,11 @@ std::vector<std::string> readList(const std::string& str, const char* delims = "
 
 SystemData* SystemData::loadSystem(pugi::xml_node system)
 {
-	std::string name, fullname, path, cmd, themeFolder, defaultCore;
+	std::string name, fullname, path, cmd, themeFolder;
 
 	name = system.child("name").text().get();
 	fullname = system.child("fullname").text().get();
 	path = system.child("path").text().get();
-	defaultCore = system.child("defaultCore").text().get();
 
 	std::vector<std::string> list = readList(system.child("extension").text().get());
 	std::vector<std::string> extensions;
