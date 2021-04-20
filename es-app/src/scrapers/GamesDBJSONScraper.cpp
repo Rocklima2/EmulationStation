@@ -144,25 +144,21 @@ void thegamesdb_generate_json_scraper_requests(const ScraperSearchParams& params
 		auto& platforms = params.system->getPlatformIds();
 		if (!platforms.empty())
 		{
-			bool first = true;
+			//bool first = true;
 			platformQueryParam += "&filter%5Bplatform%5D=";
 			for (auto platformIt = platforms.cbegin(); platformIt != platforms.cend(); platformIt++)
 			{
 				auto mapIt = gamesdb_new_platformid_map.find(*platformIt);
 				if (mapIt != gamesdb_new_platformid_map.cend())
 				{
-					if (!first)
-					{
-						platformQueryParam += ",";
-					}
-					platformQueryParam += HttpReq::urlEncode(mapIt->second);
-					first = false;
+					platformQueryParam += HttpReq::urlEncode(mapIt->second)+",";
 				} else
 				{
 					LOG(LogWarning) << "TheGamesDB scraper warning - no support for platform "
 									<< getPlatformName(*platformIt);
 				}
 			}
+			platformQueryParam.pop_back();
 			path += platformQueryParam;
 		}
 
@@ -226,7 +222,6 @@ std::string getDeveloperString(const Value& v)
 		return "";
 	}
 	std::string out = "";
-	bool first = true;
 	for (int i = 0; i < (int)v.Size(); ++i)
 	{
 		auto mapIt = resources.gamesdb_new_developers_map.find(getIntOrThrow(v[i]));
@@ -234,13 +229,9 @@ std::string getDeveloperString(const Value& v)
 		{
 			continue;
 		}
-		if (!first)
-		{
-			out += ", ";
-		}
-		out += mapIt->second;
-		first = false;
+		out += mapIt->second+", ";
 	}
+	out.pop_back();
 	return out;
 }
 
@@ -251,7 +242,6 @@ std::string getPublisherString(const Value& v)
 		return "";
 	}
 	std::string out = "";
-	bool first = true;
 	for (int i = 0; i < (int)v.Size(); ++i)
 	{
 		auto mapIt = resources.gamesdb_new_publishers_map.find(getIntOrThrow(v[i]));
@@ -259,13 +249,9 @@ std::string getPublisherString(const Value& v)
 		{
 			continue;
 		}
-		if (!first)
-		{
-			out += ", ";
-		}
-		out += mapIt->second;
-		first = false;
+		out += mapIt->second+", ";
 	}
+	out.pop_back();
 	return out;
 }
 
@@ -276,7 +262,6 @@ std::string getGenreString(const Value& v)
 		return "";
 	}
 	std::string out = "";
-	bool first = true;
 	for (int i = 0; i < (int)v.Size(); ++i)
 	{
 		auto mapIt = resources.gamesdb_new_genres_map.find(getIntOrThrow(v[i]));
@@ -284,13 +269,9 @@ std::string getGenreString(const Value& v)
 		{
 			continue;
 		}
-		if (!first)
-		{
-			out += ", ";
-		}
-		out += mapIt->second;
-		first = false;
+		out += mapIt->second+", ";
 	}
+	out.pop_back();
 	return out;
 }
 

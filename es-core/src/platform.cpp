@@ -73,16 +73,13 @@ void processQuitMode()
 	{
 	case QuitMode::RESTART:
 		LOG(LogInfo) << "Restarting EmulationStation";
-		touch("/tmp/es-restart");
 		break;
 	case QuitMode::REBOOT:
 		LOG(LogInfo) << "Rebooting system";
-		touch("/tmp/es-sysrestart");
 		runRestartCommand();
 		break;
 	case QuitMode::SHUTDOWN:
 		LOG(LogInfo) << "Shutting system down";
-		touch("/tmp/es-shutdown");
 		runShutdownCommand();
 		break;
 	}
